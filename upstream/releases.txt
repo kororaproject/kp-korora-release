@@ -1,0 +1,61 @@
+# This file contains a list of available Kororaa releases.
+# Format is as follows:
+#
+#[Release Name] 
+#   - Header for this release. Typically: [Kororaa X (Codename)]
+#version=FLOAT 
+#   - Required. Version number for this release.
+#stable=BOOL 
+#   - Optional. Marks a release as stable/final. Defaults to false. 
+#preupgrade-ok=BOOL
+#   - Optional. Marks a release as usable with preupgrade. Defaults to false.
+#eol-date=YYYYMMDD
+#   - Optional. Gives the date on which the release stops getting updates.
+#mirrorlist=URL
+#   - Mirrorlist URL for the main repo for this release.
+#baseurl=URL
+#   - Single URL for the main repo for this release.
+#installmirrorlist=URL
+#   - Mirrorlist for the *installable tree* for this release
+#     (i.e. this address needs an images/ dir and .treeinfo)
+#installurl=URL
+#   - Single URL for the installable tree.
+#
+# One of (mirrorlist or baseurl) is required. If those trees do not contain
+# boot images then an installurl or installmirrorlist is required.
+
+[Korora 18 (Flo)]
+stable=True
+preupgrade-ok=True
+version=18
+mirrorlist=http://kororaa.org/pub/kororaa/kororaa-mirror.lst
+installmirrorlist=http://kororaa.org/pub/kororaa/kororaa-mirror-install.lst
+
+[Kororaa 17 (Bubbles)]
+stable=True
+preupgrade-ok=True
+version=17
+mirrorlist=http://kororaa.org/pub/kororaa/kororaa-mirror.lst
+installmirrorlist=http://kororaa.org/pub/kororaa/kororaa-mirror-install.lst
+
+[Kororaa 16 (Chum)]
+stable=True
+preupgrade-ok=True
+version=16
+mirrorlist=http://kororaa.org/pub/kororaa/kororaa-mirror.lst
+installmirrorlist=http://kororaa.org/pub/kororaa/kororaa-mirror-install.lst
+
+[Kororaa 15 (Squirt)]
+stable=True
+preupgrade-ok=True
+version=15
+mirrorlist=http://kororaa.org/pub/kororaa/kororaa-mirror.lst
+installmirrorlist=http://kororaa.org/pub/kororaa/kororaa-mirror-install.lst
+
+[Kororaa 14 (Nemo)]
+stable=True
+preupgrade-ok=True
+version=14
+mirrorlist=http://kororaa.org/pub/kororaa/kororaa-mirror.lst
+installmirrorlist=http://kororaa.org/pub/kororaa/kororaa-mirror-install.lst
+
