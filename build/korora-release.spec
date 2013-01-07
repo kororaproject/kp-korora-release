@@ -2,32 +2,32 @@
 %define dist_version 18
 %define dist_release ""
 
-Summary:	Korora release files
-Name:		korora-release
-Version:	18
-Release:	0.1
-License:	GPLv2
-Group:		System Environment/Base
-URL:		http://kororaproject.org
-Source:		%{name}-%{version}.tar.bz2
-Obsoletes:	redhat-release
-Obsoletes:	redhat-release-rawhide < %{version}-%{release}
-Provides:	redhat-release
-Provides:	system-release = %{version}-%{release}
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildArch:	noarch
-Obsoletes:	fedora-release kororaa-release
-Provides:	fedora-release kororaa-release
+Summary:    Korora release files
+Name:       korora-release
+Version:    18.0
+Release:    0.1
+License:    GPLv2
+Group:      System Environment/Base
+URL:        http://kororaproject.org
+Source:     %{name}-%{version}.tar.gz
+Obsoletes:  redhat-release
+Obsoletes:  redhat-release-rawhide < %{version}-%{release}
+Provides:   redhat-release
+Provides:   system-release = %{version}-%{release}
+BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+BuildArch:  noarch
+Obsoletes:  fedora-release kororaa-release
+Provides:   fedora-release kororaa-release
 
 %description
 Korora release files such as yum configs and various /etc/ files that
 define the release.
 
 %package rawhide
-Summary:	Rawhide repo definitions
-Requires:	korora-release = %{version}-%{release}
-Obsoletes:	fedora-release-rawhide
-Provides:	fedora-release-rawhide
+Summary:  Rawhide repo definitions
+Requires: korora-release = %{version}-%{release}
+Obsoletes:  fedora-release-rawhide
+Provides: fedora-release-rawhide
 
 %description rawhide
 This package provides the rawhide repo definitions.
@@ -87,9 +87,9 @@ install -d -m 755 $RPM_BUILD_ROOT/etc/rpm
 cat >> $RPM_BUILD_ROOT/etc/rpm/macros.dist << EOF
 # dist macros.
 
-%%fedora		%{dist_version}
-%%dist		.fc%{dist_version}
-%%fc%{dist_version}		1
+%%fedora    %{dist_version}
+%%dist    .fc%{dist_version}
+%%fc%{dist_version}   1
 EOF
 
 %post
