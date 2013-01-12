@@ -4,7 +4,7 @@
 
 Summary:    Korora release files
 Name:       korora-release
-Version:    18.0
+Version:    18
 Release:    0.1
 License:    GPLv2
 Group:      System Environment/Base
