@@ -56,7 +56,7 @@ VERSION="%{version} (%{release_name})"
 ID=korora
 VERSION_ID=%{version}
 PRETTY_NAME="Korora %{version} (%{release_name})"
-ANSI_COLOR=0;34
+ANSI_COLOR="0;34"
 EOF
 
 install -d -m 755 $RPM_BUILD_ROOT/etc/pki/rpm-gpg
