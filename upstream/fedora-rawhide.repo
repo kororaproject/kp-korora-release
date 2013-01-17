@@ -24,7 +24,7 @@ name=Fedora - Rawhide - Developmental packages for the next Fedora release
 failovermethod=priority
 #baseurl=http://download.fedoraproject.org/pub/fedora/linux/development/$basearch/os/
 mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=rawhide&arch=$basearch
-enabled=1
+enabled=0
 gpgcheck=0
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$basearch file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$basearch
 
