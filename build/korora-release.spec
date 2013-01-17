@@ -1,6 +1,5 @@
 %define release_name Flo
 %define dist_version 18
-%define dist_release ""
 
 Summary:    Korora release files
 Name:       korora-release
@@ -24,10 +23,10 @@ Korora release files such as yum configs and various /etc/ files that
 define the release.
 
 %package rawhide
-Summary:  Rawhide repo definitions
-Requires: korora-release = %{version}-%{release}
+Summary:    Rawhide repo definitions
+Requires:   korora-release = %{version}-%{release}
 Obsoletes:  fedora-release-rawhide
-Provides: fedora-release-rawhide
+Provides:   fedora-release-rawhide
 
 %description rawhide
 This package provides the rawhide repo definitions.
@@ -35,14 +34,15 @@ This package provides the rawhide repo definitions.
 
 %prep
 %setup -q
+sed -i 's|@@VERSION@@|%{dist_version}|g' Fedora-Legal-README.txt
 
 %build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT/etc
-echo "Korora release %{version}%{dist_release} (%{release_name})" > $RPM_BUILD_ROOT/etc/fedora-release
-echo "cpe://o:korora:korora:%{version}" > $RPM_BUILD_ROOT/etc/system-release-cpe
+echo "Korora release %{version} (%{release_name})" > $RPM_BUILD_ROOT/etc/fedora-release
+echo "cpe://o:kororaproject:korora:%{version}" > $RPM_BUILD_ROOT/etc/system-release-cpe
 cp -p $RPM_BUILD_ROOT/etc/fedora-release $RPM_BUILD_ROOT/etc/issue
 echo "Kernel \r on an \m (\l)" >> $RPM_BUILD_ROOT/etc/issue
 cp -p $RPM_BUILD_ROOT/etc/issue $RPM_BUILD_ROOT/etc/issue.net
@@ -57,6 +57,7 @@ ID=korora
 VERSION_ID=%{version}
 PRETTY_NAME="Korora %{version} (%{release_name})"
 ANSI_COLOR="0;34"
+CPE_NAME="cpe:/o:kororaproject:korora:%{version}"
 EOF
 
 install -d -m 755 $RPM_BUILD_ROOT/etc/pki/rpm-gpg
@@ -92,13 +93,12 @@ cat >> $RPM_BUILD_ROOT/etc/rpm/macros.dist << EOF
 %%fc%{dist_version}   1
 EOF
 
-%post
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
+%doc GPL Fedora-Legal-README.txt
 %doc GPL README.pdf
 %config %attr(0644,root,root) /etc/os-release
 %config %attr(0644,root,root) /etc/fedora-release

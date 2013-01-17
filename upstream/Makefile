@@ -1,23 +1,16 @@
-VERSION=$(shell awk '/Version/ { print $$2 }' generic-release.spec)
-
-CVSROOT = $(shell cat CVS/Root 2>/dev/null || :)
-
-CVSTAG = V$(subst .,-,$(VERSION))
+VERSION=$(shell awk '/Version:/ { print $$2 }' fedora-release.spec)
+RELEASE=$(shell awk '/Release:/ { print $$2 }' fedora-release.spec)
+GITTAG=fedora-release-$(VERSION)
 
 all:
 
 tag-archive:
-	@cvs -Q tag -F $(CVSTAG)
+	@git tag -a -m "Tag as $(GITTAG)" -f $(GITTAG)
+	@echo "Tagged as $(GITTAG)"
 
 create-archive:
-	@rm -rf /tmp/fedora-release
-	@cd /tmp ; cvs -Q -d $(CVSROOT) export -r$(CVSTAG) generic-release || echo "Um... export aborted."
-	@mv /tmp/generic-release /tmp/generic-release-$(VERSION)
-	@cd /tmp ; tar -czSpf generic-release-$(VERSION).tar.gz generic-release-$(VERSION)
-	@rm -rf /tmp/generic-release-$(VERSION)
-	@cp /tmp/generic-release-$(VERSION).tar.gz .
-	@rm -f /tmp/generic-release-$(VERSION).tar.gz
+	@git archive --prefix $(GITTAG)/ --format tar $(GITTAG) |bzip2 > $(GITTAG).tar.bz2
 	@echo ""
-	@echo "The final archive is in generic-release-$(VERSION).tar.gz"
+	@echo "The final archive is in $(GITTAG).tar.bz2"
 
 archive: tag-archive create-archive
