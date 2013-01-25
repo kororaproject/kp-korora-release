@@ -1,4 +1,4 @@
 http://mirror.linux.org.au/pub/kororaa/releases/$releasever/$basearch/
 ftp://mirror.aarnet.edu.au/pub/kororaa/kororaa/releases/$releasever/$basearch/
 ftp://ftp.asia.edu.tw/pub/OS/Linux/Kororaa/kororaa/releases/$releasever/$basearch/
-http://kororaproject.org/pub/korora/releases/$releasever/$basearch/
+http://dl.kororaproject.org/pub/korora/releases/$releasever/$basearch/

@@ -5,7 +5,7 @@
 Summary:	Korora release files
 Name:		korora-release
 Version:	18
-Release:	0.1
+Release:	0.2
 License:	GPLv2
 Group:		System Environment/Base
 URL:		http://kororaproject.org
@@ -120,6 +120,9 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) /etc/yum.repos.d/fedora-rawhide.repo
 
 %changelog
+* Fri Jan 25 2013 Chris Smart <csmart@kororaproject.org> - 18-0.2
+- Update to use new dl.kororaproject.org domain.
+
 * Thu Oct 25 2012 Chris Smart <chris@kororaproject.org> - 18-0.1
 - Update to Korora 18 release
 

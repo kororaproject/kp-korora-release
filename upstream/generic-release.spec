@@ -4,7 +4,7 @@
 Summary:	Generic release files
 Name:		generic-release
 Version:	18
-Release:	0.2
+Release:	0.8
 License:	GPLv2
 Group:		System Environment/Base
 Source:		%{name}-%{version}.tar.gz
@@ -12,7 +12,7 @@ Obsoletes:	redhat-release
 Provides:	redhat-release = %{version}-%{release}
 Provides:	system-release = %{version}-%{release}
 # Comment this out if we're building for a non-rawhide target
-Requires:	generic-release-rawhide = %{version}-%{release}
+# Requires:	generic-release-rawhide = %{version}-%{release}
 BuildArch:	noarch
 Conflicts:	fedora-release
 
@@ -67,7 +67,7 @@ VERSION="%{version} (%{release_name})"
 ID=generic
 VERSION_ID=%{version}
 PRETTY_NAME="Generic %{version} (%{release_name})"
-ANSI_COLOR=0;34
+ANSI_COLOR="0;34"
 EOF
 
 install -d -m 755 $RPM_BUILD_ROOT/etc/pki/rpm-gpg
@@ -132,6 +132,12 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) /etc/yum.repos.d/fedora-rawhide.repo
 
 %changelog
+* Fri Oct 19 2012 Tom Callaway <spot@fedoraproject.org> - 18-0.8
+- resync, fix quoting issue in os-release
+
+* Thu Jul 19 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 18-0.3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
+
 * Fri Feb 10 2012 Tom Callaway <spot@fedoraproject.org> - 18-0.2
 - sync with fedora-release model
 
