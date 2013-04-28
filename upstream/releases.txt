@@ -24,6 +24,13 @@
 # One of (mirrorlist or baseurl) is required. If those trees do not contain
 # boot images then an installurl or installmirrorlist is required.
 
+[Korora 19 (Bruce)]
+stable=True
+preupgrade-ok=True
+version=18
+mirrorlist=http://dl.kororaproject.org/pub/korora/korora-mirror.lst
+installmirrorlist=http://dl.kororaproject.org/pub/korora/korora-mirror-install.lst
+
 [Korora 18 (Flo)]
 stable=True
 preupgrade-ok=True

@@ -1,10 +1,10 @@
-%define release_name Flo
-%define dist_version 18
+%define release_name Bruce
+%define dist_version 19
 
 Summary:    Korora release files
 Name:       korora-release
-Version:    18
-Release:    0.3
+Version:    19
+Release:    0.1
 License:    GPLv2
 Group:      System Environment/Base
 URL:        http://kororaproject.org
@@ -15,8 +15,8 @@ Provides:   redhat-release
 Provides:   system-release = %{version}-%{release}
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:  noarch
-Obsoletes:  fedora-release kororaa-release
-Provides:   fedora-release kororaa-release
+Obsoletes:  fedora-release
+Provides:   fedora-release
 
 %description
 Korora release files such as yum configs and various /etc/ files that
@@ -120,6 +120,9 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) /etc/yum.repos.d/fedora-rawhide.repo
 
 %changelog
+* Sun Apr 28 2013 Ian Firns <firnsy@kororaproject.org> - 19-0.1
+- Update to Korora 19 release
+
 * Fri Jan 25 2013 Chris Smart <csmart@kororaproject.org> - 18-0.2
 - Update to use new dl.kororaproject.org domain.
 
