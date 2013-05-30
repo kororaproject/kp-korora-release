@@ -4,7 +4,7 @@
 Summary:    Korora release files
 Name:       korora-release
 Version:    19
-Release:    0.2
+Release:    0.3
 License:    GPLv2
 Group:      System Environment/Base
 URL:        http://kororaproject.org
@@ -120,6 +120,9 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) /etc/yum.repos.d/fedora-rawhide.repo
 
 %changelog
+* Thu May 30 2013 Ian Firns <firnsy@kororaproject.org> - 19-0.3
+- Fix gpgkey testing mirror lists paths in korora.repo.
+
 * Sat May 25 2013 Ian Firns <firnsy@kororaproject.org> - 19-0.2
 - Added Korora 19 signing keys.
 
