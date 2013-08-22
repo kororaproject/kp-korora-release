@@ -4,7 +4,7 @@
 Summary:    Korora release files
 Name:       korora-release
 Version:    19
-Release:    0.3
+Release:    1
 License:    GPLv2
 Group:      System Environment/Base
 URL:        http://kororaproject.org
@@ -72,7 +72,7 @@ for arch in i386 x86_64
   ln -s RPM-GPG-KEY-fedora-%{dist_version}-primary RPM-GPG-KEY-fedora-$arch
 done
 ln -s RPM-GPG-KEY-fedora-%{dist_version}-primary RPM-GPG-KEY-fedora
-for arch in arm armhfp arm64 ppc ppc64 s390 s390x sparc sparc64
+for arch in arm armhfp aarch64 ppc ppc64 s390 s390x
   do
   ln -s RPM-GPG-KEY-fedora-%{dist_version}-secondary RPM-GPG-KEY-fedora-$arch
 done
@@ -88,9 +88,9 @@ install -d -m 755 $RPM_BUILD_ROOT/etc/rpm
 cat >> $RPM_BUILD_ROOT/etc/rpm/macros.dist << EOF
 # dist macros.
 
-%%fedora    %{dist_version}
-%%dist    .fc%{dist_version}
-%%fc%{dist_version}   1
+%%fedora		%{dist_version}
+%%dist		.fc%{dist_version}
+%%fc%{dist_version}		1
 EOF
 
 %clean
@@ -111,7 +111,7 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) /etc/yum.repos.d/korora*.repo
 %config(noreplace) %attr(0644,root,root) /etc/issue
 %config(noreplace) %attr(0644,root,root) /etc/issue.net
-%config %attr(0644,root,root) /etc/rpm/macros.dist
+%attr(0644,root,root) /etc/rpm/macros.dist
 %dir /etc/pki/rpm-gpg
 /etc/pki/rpm-gpg/*
 
@@ -120,6 +120,9 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) /etc/yum.repos.d/fedora-rawhide.repo
 
 %changelog
+* Thu Aug 22 2013 Chris Smart <csmart@kororaproject.org> - 19-1
+- Update to upstream release.
+
 * Thu May 30 2013 Ian Firns <firnsy@kororaproject.org> - 19-0.3
 - Fix gpgkey testing mirror lists paths in korora.repo.
 
