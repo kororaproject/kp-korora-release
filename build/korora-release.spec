@@ -1,18 +1,19 @@
-%define release_name Bruce
-%define dist_version 19
+%define release_name Peach
+%define dist_version 20
+%define bug_version 20
 
 Summary:    Korora release files
 Name:       korora-release
-Version:    19
-Release:    1
+Version:    20
+Release:    0.1
 License:    GPLv2
 Group:      System Environment/Base
 URL:        http://kororaproject.org
 Source:     %{name}-%{version}.tar.gz
 Obsoletes:  redhat-release
-Obsoletes:  redhat-release-rawhide < %{version}-%{release}
 Provides:   redhat-release
 Provides:   system-release = %{version}-%{release}
+Obsoletes:  redhat-release-rawhide < %{version}-%{release}
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:  noarch
 Obsoletes:  fedora-release
@@ -67,14 +68,14 @@ install -m 644 RPM-GPG-KEY* $RPM_BUILD_ROOT/etc/pki/rpm-gpg/
 # Install all the keys, link the primary keys to primary arch files
 # and to compat generic location
 pushd $RPM_BUILD_ROOT/etc/pki/rpm-gpg/
-for arch in i386 x86_64
+for arch in i386 x86_64 armhfp
   do
-  ln -s RPM-GPG-KEY-fedora-%{dist_version}-primary RPM-GPG-KEY-fedora-$arch
+  ln -s RPM-GPG-KEY-fedora-%{dist_version}-primary RPM-GPG-KEY-fedora-%{dist_version}-$arch
 done
-ln -s RPM-GPG-KEY-fedora-%{dist_version}-primary RPM-GPG-KEY-fedora
-for arch in arm armhfp aarch64 ppc ppc64 s390 s390x
+ln -s RPM-GPG-KEY-fedora-%{dist_version}-primary RPM-GPG-KEY-%{dist_version}-fedora
+for arch in aarch64 ppc ppc64 s390 s390x
   do
-  ln -s RPM-GPG-KEY-fedora-%{dist_version}-secondary RPM-GPG-KEY-fedora-$arch
+  ln -s RPM-GPG-KEY-fedora-%{dist_version}-secondary RPM-GPG-KEY-fedora-%{dist_version}-$arch
 done
 popd
 
@@ -98,8 +99,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc GPL Fedora-Legal-README.txt
-%doc GPL README.pdf
+%doc GPL Fedora-Legal-README.txt README.pdf
 %config %attr(0644,root,root) /etc/os-release
 %config %attr(0644,root,root) /etc/fedora-release
 /etc/redhat-release
@@ -111,7 +111,7 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) /etc/yum.repos.d/korora*.repo
 %config(noreplace) %attr(0644,root,root) /etc/issue
 %config(noreplace) %attr(0644,root,root) /etc/issue.net
-%attr(0644,root,root) /etc/rpm/macros.dist
+%config %attr(0644,root,root) /etc/rpm/macros.dist
 %dir /etc/pki/rpm-gpg
 /etc/pki/rpm-gpg/*
 
@@ -120,6 +120,9 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) /etc/yum.repos.d/fedora-rawhide.repo
 
 %changelog
+* Sun Oct 27 2013 Chris Smart <csmart@kororaproject.org> - 20-0.1
+- Update to upstream release for Korora 20.
+
 * Thu Aug 22 2013 Chris Smart <csmart@kororaproject.org> - 19-1
 - Update to upstream release.
 
