@@ -5,7 +5,7 @@
 Summary:    Korora release files
 Name:       korora-release
 Version:    20
-Release:    0.1
+Release:    0.7
 License:    GPLv2
 Group:      System Environment/Base
 URL:        http://kororaproject.org
@@ -120,6 +120,9 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) /etc/yum.repos.d/fedora-rawhide.repo
 
 %changelog
+* Tue Nov 04 2013 Chris Smart <csmart@kororaproject.org> - 20-0.7
+- Update fedora repos to fix gpg key and mirror url, as per upstream
+
 * Sun Oct 27 2013 Chris Smart <csmart@kororaproject.org> - 20-0.1
 - Update to upstream release for Korora 20.
 

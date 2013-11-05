@@ -22,27 +22,27 @@
 [rawhide]
 name=Fedora - Rawhide - Developmental packages for the next Fedora release
 failovermethod=priority
-#baseurl=http://download.fedoraproject.org/pub/fedora/linux/development/$basearch/os/
-mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=rawhide&arch=$basearch
+#baseurl=http://download.fedoraproject.org/pub/fedora/linux/development/rawhide/$basearch/os/
+metalink=https://mirrors.fedoraproject.org/metalink?repo=rawhide&arch=$basearch
 enabled=0
 gpgcheck=0
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$basearch file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$basearch
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$basearch file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$releasever-$basearch
 
 [rawhide-debuginfo]
 name=Fedora - Rawhide - Debug
 failovermethod=priority
-#baseurl=http://download.fedoraproject.org/pub/fedora/linux/development/$basearch/debug/
-mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=rawhide-debug&arch=$basearch
+#baseurl=http://download.fedoraproject.org/pub/fedora/linux/development/rawhide/$basearch/debug/
+metalink=https://mirrors.fedoraproject.org/metalink?repo=rawhide-debug&arch=$basearch
 enabled=0
 gpgcheck=0
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$basearch file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$basearch
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$basearch file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$releasever-$basearch
 
 [rawhide-source]
 name=Fedora - Rawhide - Source
 failovermethod=priority
-#baseurl=http://download.fedoraproject.org/pub/fedora/linux/development/source/SRPMS/
-mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=rawhide-source&arch=$basearch
+#baseurl=http://download.fedoraproject.org/pub/fedora/linux/development/rawhide/source/SRPMS/
+metalink=https://mirrors.fedoraproject.org/metalink?repo=rawhide-source&arch=$basearch
 enabled=0
 gpgcheck=0
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$basearch file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$basearch
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$basearch file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$releasever-$basearch
 
