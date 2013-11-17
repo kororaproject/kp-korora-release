@@ -2,22 +2,21 @@
 %define dist_version 20
 %define bug_version 20
 
-Summary:    Korora release files
-Name:       korora-release
-Version:    20
-Release:    0.7
-License:    GPLv2
-Group:      System Environment/Base
-URL:        http://kororaproject.org
-Source:     %{name}-%{version}.tar.gz
-Obsoletes:  redhat-release
-Provides:   redhat-release
-Provides:   system-release = %{version}-%{release}
-Obsoletes:  redhat-release-rawhide < %{version}-%{release}
-BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildArch:  noarch
-Obsoletes:  fedora-release
-Provides:   fedora-release
+Summary:        Korora release files
+Name:           korora-release
+Version:        20
+Release:        0.8
+License:        GPLv2
+Group:          System Environment/Base
+URL:            http://kororaproject.org
+Source:         %{name}-%{version}.tar.gz
+Obsoletes:      redhat-release
+Provides:       redhat-release
+Provides:       system-release = %{version}-%{release}
+Obsoletes:      fedora-release-rawhide < %{version}-%{release}
+BuildArch:      noarch
+Obsoletes:      fedora-release
+Provides:       fedora-release
 
 %description
 Korora release files such as yum configs and various /etc/ files that
@@ -43,7 +42,7 @@ sed -i 's|@@VERSION@@|%{dist_version}|g' Fedora-Legal-README.txt
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT/etc
 echo "Korora release %{version} (%{release_name})" > $RPM_BUILD_ROOT/etc/fedora-release
-echo "cpe://o:kororaproject:korora:%{version}" > $RPM_BUILD_ROOT/etc/system-release-cpe
+echo "cpe:/o:kororaproject:korora:%{version}" > $RPM_BUILD_ROOT/etc/system-release-cpe
 cp -p $RPM_BUILD_ROOT/etc/fedora-release $RPM_BUILD_ROOT/etc/issue
 echo "Kernel \r on an \m (\l)" >> $RPM_BUILD_ROOT/etc/issue
 cp -p $RPM_BUILD_ROOT/etc/issue $RPM_BUILD_ROOT/etc/issue.net
@@ -53,30 +52,35 @@ ln -s fedora-release $RPM_BUILD_ROOT/etc/system-release
 
 cat << EOF >>$RPM_BUILD_ROOT/etc/os-release
 NAME=Korora
-VERSION="%{version} (%{release_name})"
+VERSION="%{dist_version} (%{release_name})"
 ID=korora
-VERSION_ID=%{version}
-PRETTY_NAME="Korora %{version} (%{release_name})"
+VERSION_ID=%{dist_version}
+PRETTY_NAME="Korora %{dist_version} (%{release_name})"
 ANSI_COLOR="0;34"
-CPE_NAME="cpe:/o:kororaproject:korora:%{version}"
+CPE_NAME="cpe:/o:kororaproject:korora:%{dist_version}"
+HOME_URL="https://kororaproject.org/"
 EOF
 
-install -d -m 755 $RPM_BUILD_ROOT/etc/pki/rpm-gpg
+# install the keys
+install -d -m 755 $rpm_build_root/etc/pki/rpm-gpg
+install -m 644 rpm-gpg-key* $rpm_build_root/etc/pki/rpm-gpg/
 
-install -m 644 RPM-GPG-KEY* $RPM_BUILD_ROOT/etc/pki/rpm-gpg/
-
-# Install all the keys, link the primary keys to primary arch files
-# and to compat generic location
-pushd $RPM_BUILD_ROOT/etc/pki/rpm-gpg/
-for arch in i386 x86_64 armhfp
-  do
-  ln -s RPM-GPG-KEY-fedora-%{dist_version}-primary RPM-GPG-KEY-fedora-%{dist_version}-$arch
+# link the primary/secondary keys to arch files, according to archmap.
+# ex: if there's a key named rpm-gpg-key-fedora-19-primary, and archmap
+#     says "fedora-19-primary: i386 x86_64",
+#     rpm-gpg-key-fedora-19-{i386,x86_64} will be symlinked to that key.
+pushd $rpm_build_root/etc/pki/rpm-gpg/
+for keyfile in rpm-gpg-key*; do
+    key=${keyfile#rpm-gpg-key-} # e.g. 'fedora-20-primary'
+    arches=$(sed -ne "s/^${key}://p" $rpm_build_dir/%{name}-%{version}/archmap) \
+        || echo "warning: no archmap entry for $key"
+    for arch in $arches; do
+        # replace last part with $arch (fedora-20-primary -> fedora-20-$arch)
+        ln -s $keyfile ${keyfile%%-*}-$arch # note: rpm replaces %% with %
+    done
 done
-ln -s RPM-GPG-KEY-fedora-%{dist_version}-primary RPM-GPG-KEY-%{dist_version}-fedora
-for arch in aarch64 ppc ppc64 s390 s390x
-  do
-  ln -s RPM-GPG-KEY-fedora-%{dist_version}-secondary RPM-GPG-KEY-fedora-%{dist_version}-$arch
-done
+# and add symlink for compat generic location
+ln -s rpm-gpg-key-fedora-%{dist_version}-primary rpm-gpg-key-%{dist_version}-fedora
 popd
 
 install -d -m 755 $RPM_BUILD_ROOT/etc/yum.repos.d
@@ -89,9 +93,9 @@ install -d -m 755 $RPM_BUILD_ROOT/etc/rpm
 cat >> $RPM_BUILD_ROOT/etc/rpm/macros.dist << EOF
 # dist macros.
 
-%%fedora		%{dist_version}
-%%dist		.fc%{dist_version}
-%%fc%{dist_version}		1
+%%fedora                %{dist_version}
+%%dist                .fc%{dist_version}
+%%fc%{dist_version}                1
 EOF
 
 %clean
@@ -120,6 +124,13 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) /etc/yum.repos.d/fedora-rawhide.repo
 
 %changelog
+* Tue Nov 04 2013 Chris Smart <csmart@kororaproject.org> - 20-0.8
+- Bump upstream
+- patch from Will Woods to use a archmap file for linking gpg keys
+- add f21 keys
+- add fields to /etc/os-release for rhbz#951119
+- set skip_if_unavailable=False for rhbz#985354
+
 * Tue Nov 04 2013 Chris Smart <csmart@kororaproject.org> - 20-0.7
 - Update fedora repos to fix gpg key and mirror url, as per upstream
 

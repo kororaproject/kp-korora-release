@@ -27,6 +27,7 @@ metalink=https://mirrors.fedoraproject.org/metalink?repo=rawhide&arch=$basearch
 enabled=0
 gpgcheck=0
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$basearch file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$releasever-$basearch
+skip_if_unavailable=False
 
 [rawhide-debuginfo]
 name=Fedora - Rawhide - Debug
@@ -36,6 +37,7 @@ metalink=https://mirrors.fedoraproject.org/metalink?repo=rawhide-debug&arch=$bas
 enabled=0
 gpgcheck=0
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$basearch file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$releasever-$basearch
+skip_if_unavailable=False
 
 [rawhide-source]
 name=Fedora - Rawhide - Source
@@ -45,4 +47,5 @@ metalink=https://mirrors.fedoraproject.org/metalink?repo=rawhide-source&arch=$ba
 enabled=0
 gpgcheck=0
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$basearch file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$releasever-$basearch
+skip_if_unavailable=False
 
