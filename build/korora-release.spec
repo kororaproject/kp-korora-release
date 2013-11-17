@@ -61,26 +61,26 @@ CPE_NAME="cpe:/o:kororaproject:korora:%{dist_version}"
 HOME_URL="https://kororaproject.org/"
 EOF
 
-# install the keys
-install -d -m 755 $rpm_build_root/etc/pki/rpm-gpg
-install -m 644 rpm-gpg-key* $rpm_build_root/etc/pki/rpm-gpg/
+# Install the keys
+install -d -m 755 $RPM_BUILD_ROOT/etc/pki/rpm-gpg
+install -m 644 RPM-GPG-KEY* $RPM_BUILD_ROOT/etc/pki/rpm-gpg/
 
-# link the primary/secondary keys to arch files, according to archmap.
-# ex: if there's a key named rpm-gpg-key-fedora-19-primary, and archmap
+# Link the primary/secondary keys to arch files, according to archmap.
+# Ex: if there's a key named RPM-GPG-KEY-fedora-19-primary, and archmap
 #     says "fedora-19-primary: i386 x86_64",
-#     rpm-gpg-key-fedora-19-{i386,x86_64} will be symlinked to that key.
-pushd $rpm_build_root/etc/pki/rpm-gpg/
-for keyfile in rpm-gpg-key*; do
-    key=${keyfile#rpm-gpg-key-} # e.g. 'fedora-20-primary'
-    arches=$(sed -ne "s/^${key}://p" $rpm_build_dir/%{name}-%{version}/archmap) \
-        || echo "warning: no archmap entry for $key"
+#     RPM-GPG-KEY-fedora-19-{i386,x86_64} will be symlinked to that key.
+pushd $RPM_BUILD_ROOT/etc/pki/rpm-gpg/
+for keyfile in RPM-GPG-KEY*; do
+    key=${keyfile#RPM-GPG-KEY-} # e.g. 'fedora-20-primary'
+    arches=$(sed -ne "s/^${key}://p" $RPM_BUILD_DIR/%{name}-%{version}/archmap) \
+        || echo "WARNING: no archmap entry for $key"
     for arch in $arches; do
         # replace last part with $arch (fedora-20-primary -> fedora-20-$arch)
-        ln -s $keyfile ${keyfile%%-*}-$arch # note: rpm replaces %% with %
+        ln -s $keyfile ${keyfile%%-*}-$arch # NOTE: RPM replaces %% with %
     done
 done
 # and add symlink for compat generic location
-ln -s rpm-gpg-key-fedora-%{dist_version}-primary rpm-gpg-key-%{dist_version}-fedora
+ln -s RPM-GPG-KEY-fedora-%{dist_version}-primary RPM-GPG-KEY-%{dist_version}-fedora
 popd
 
 install -d -m 755 $RPM_BUILD_ROOT/etc/yum.repos.d
