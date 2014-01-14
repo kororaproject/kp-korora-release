@@ -4,7 +4,7 @@
 Summary:    Korora release files
 Name:       korora-release
 Version:    19
-Release:    1
+Release:    5
 License:    GPLv2
 Group:      System Environment/Base
 URL:        http://kororaproject.org
@@ -64,18 +64,22 @@ install -d -m 755 $RPM_BUILD_ROOT/etc/pki/rpm-gpg
 
 install -m 644 RPM-GPG-KEY* $RPM_BUILD_ROOT/etc/pki/rpm-gpg/
 
-# Install all the keys, link the primary keys to primary arch files
-# and to compat generic location
+# Link the primary/secondary keys to arch files, according to archmap.
+# Ex: if there's a key named RPM-GPG-KEY-fedora-19-primary, and archmap
+#     says "fedora-19-primary: i386 x86_64",
+#     RPM-GPG-KEY-fedora-19-{i386,x86_64} will be symlinked to that key.
 pushd $RPM_BUILD_ROOT/etc/pki/rpm-gpg/
-for arch in i386 x86_64
-  do
-  ln -s RPM-GPG-KEY-fedora-%{dist_version}-primary RPM-GPG-KEY-fedora-$arch
+for keyfile in RPM-GPG-KEY*; do
+    key=${keyfile#RPM-GPG-KEY-} # e.g. 'fedora-20-primary'
+    arches=$(sed -ne "s/^${key}://p" $RPM_BUILD_DIR/%{name}-%{version}/archmap) \
+        || echo "WARNING: no archmap entry for $key"
+    for arch in $arches; do
+        # replace last part with $arch (fedora-20-primary -> fedora-20-$arch)
+        ln -s $keyfile ${keyfile%%-*}-$arch # NOTE: RPM replaces %% with %
+    done
 done
-ln -s RPM-GPG-KEY-fedora-%{dist_version}-primary RPM-GPG-KEY-fedora
-for arch in arm armhfp aarch64 ppc ppc64 s390 s390x
-  do
-  ln -s RPM-GPG-KEY-fedora-%{dist_version}-secondary RPM-GPG-KEY-fedora-$arch
-done
+# and add symlink for compat generic location
+ln -s RPM-GPG-KEY-fedora-%{dist_version}-primary RPM-GPG-KEY-%{dist_version}-fedora
 popd
 
 install -d -m 755 $RPM_BUILD_ROOT/etc/yum.repos.d
@@ -120,6 +124,9 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) /etc/yum.repos.d/fedora-rawhide.repo
 
 %changelog
+* Tue Jan 14 2014 Chris Smart <csmart@kororaproject.org> - 19-5
+- Update to upstream release.
+
 * Thu Aug 22 2013 Chris Smart <csmart@kororaproject.org> - 19-1
 - Update to upstream release.
 
