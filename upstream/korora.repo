@@ -4,7 +4,7 @@ name=Korora $releasever - $basearch
 mirrorlist=http://dl.kororaproject.org/pub/korora/korora-mirror.lst
 enabled=1
 gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-korora-$releasever-primary
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-korora-20-primary
 priority=10
 
 [korora-source]
@@ -13,7 +13,7 @@ name=Korora $releasever - $basearch - Source
 mirrorlist=http://dl.kororaproject.org/pub/korora/korora-mirror-source.lst
 enabled=0
 gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-korora-$releasever-primary
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-korora-20-primary
 priority=10
 
 [korora-testing]
@@ -22,7 +22,7 @@ name=Korora Testing $releasever - $basearch
 mirrorlist=http://dl.kororaproject.org/pub/korora/korora-mirror-testing.lst
 enabled=0
 gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-korora-$releasever-primary
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-korora-20-primary
 priority=5
 
 [korora-testing-source]
@@ -31,7 +31,7 @@ name=Korora Testing $releasever - $basearch - Source
 mirrorlist=http://dl.kororaproject.org/pub/korora/korora-mirror-testing-source.lst
 enabled=0
 gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-korora-$releasever-primary
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-korora-20-primary
 priority=5
 
 

@@ -5,7 +5,7 @@
 Summary:        Korora release files
 Name:           korora-release
 Version:        20
-Release:        1
+Release:        2
 License:        GPLv2
 Group:          System Environment/Base
 URL:            http://kororaproject.org
