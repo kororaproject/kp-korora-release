@@ -5,7 +5,7 @@
 Summary:        Korora release files
 Name:           korora-release
 Version:        20
-Release:        2
+Release:        3
 License:        GPLv2
 Group:          System Environment/Base
 URL:            http://kororaproject.org
@@ -124,6 +124,9 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) /etc/yum.repos.d/fedora-rawhide.repo
 
 %changelog
+* Fri Jan 17 2014 Chris Smart <csmart@kororaproject.org> - 20-3
+- Add Fedora 20 keys, make korora.repo fedup compatible
+
 * Tue Nov 04 2013 Chris Smart <csmart@kororaproject.org> - 20-0.8
 - Bump upstream
 - patch from Will Woods to use a archmap file for linking gpg keys
