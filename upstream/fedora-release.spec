@@ -1,26 +1,24 @@
-%define release_name Darla
+%define release_name Twenty One
 %define dist_version 21
 %define bug_version 21
 
-Summary:        Korora release files
-Name:           korora-release
+Summary:        Fedora release files
+Name:           fedora-release
 Version:        21
 Release:        2
 License:        MIT
 Group:          System Environment/Base
-URL:            http://kororaproject.org
-Source:         %{name}-%{version}.tar.gz
+URL:            http://fedoraproject.org
+Source:         %{name}-%{version}.tar.bz2
 Obsoletes:      redhat-release
 Provides:       redhat-release
 Provides:       system-release
 Provides:       system-release(%{version})
-Requires:       korora-repos(%{version})
-Obsoletes:      fedora-release
-Provides:       fedora-release
+Requires:       fedora-repos(%{version})
 BuildArch:      noarch
 
 %description
-Korora release files such as various /etc/ files that define the release.
+Fedora release files such as various /etc/ files that define the release.
 
 %package nonproduct
 Summary:        Base package for non-product-specific default configurations
@@ -30,77 +28,64 @@ Provides:       system-release-product
 # turned out to be a bad name
 Provides:       fedora-release-standard = 21-0.16
 Obsoletes:      fedora-release-standard < 21-0.16
-Requires:       korora-release = %{version}-%{release}
-Conflicts:      korora-release-cloud
-Conflicts:      korora-release-server
-Conflicts:      korora-release-workstation
-# Replace fedora's packages
-Provides:       fedora-release-nonproduct
-Obsoletes:      fedora-release-nonproduct
+Requires:       fedora-release = %{version}-%{release}
+Conflicts:      fedora-release-cloud
+Conflicts:      fedora-release-server
+Conflicts:      fedora-release-workstation
 
 %description nonproduct
 Provides a base package for non-product-specific configuration files to
 depend on.
 
 %package cloud
-Summary:        Base package for Korora Cloud-specific default configurations
+Summary:        Base package for Fedora Cloud-specific default configurations
 Provides:       system-release-cloud
 Provides:       system-release-cloud(%{version})
 Provides:       system-release-product
-Requires:       korora-release = %{version}-%{release}
-Conflicts:      korora-release-server
-Conflicts:      korora-release-nonproduct
-Conflicts:      korora-release-workstation
-# Replace fedora's packages
-Provides:       fedora-release-cloud
-Obsoletes:      fedora-release-cloud
+Requires:       fedora-release = %{version}-%{release}
+Conflicts:      fedora-release-server
+Conflicts:      fedora-release-nonproduct
+Conflicts:      fedora-release-workstation
 
 %description cloud
-Provides a base package for Korora Cloud-specific configuration files to
+Provides a base package for Fedora Cloud-specific configuration files to
 depend on.
 
 %package server
-Summary:        Base package for Korora Server-specific default configurations
+Summary:        Base package for Fedora Server-specific default configurations
 Provides:       system-release-server
 Provides:       system-release-server(%{version})
 Provides:       system-release-product
-Requires:       korora-release = %{version}-%{release}
+Requires:       fedora-release = %{version}-%{release}
 Requires:       systemd
 Requires:       cockpit
 Requires:       rolekit
 Requires(post):	sed
 Requires(post):	systemd
-Conflicts:      korora-release-cloud
-Conflicts:      korora-release-nonproduct
-Conflicts:      korora-release-workstation
-# Replace fedora's packages
-Provides:       fedora-release-server
-Obsoletes:      fedora-release-server
+Conflicts:      fedora-release-cloud
+Conflicts:      fedora-release-nonproduct
+Conflicts:      fedora-release-workstation
 
 %description server
-Provides a base package for Korora Server-specific configuration files to
+Provides a base package for Fedora Server-specific configuration files to
 depend on.
 
 %package workstation
-Summary:        Base package for Korora Workstation-specific default configurations
+Summary:        Base package for Fedora Workstation-specific default configurations
 Provides:       system-release-workstation
 Provides:       system-release-workstation(%{version})
 Provides:       system-release-product
-Requires:       korora-release = %{version}-%{release}
-Conflicts:      korora-release-cloud
-Conflicts:      korora-release-server
-Conflicts:      korora-release-nonproduct
+Requires:       fedora-release = %{version}-%{release}
+Conflicts:      fedora-release-cloud
+Conflicts:      fedora-release-server
+Conflicts:      fedora-release-nonproduct
 # needed for captive portal support
 Requires:       NetworkManager-config-connectivity-fedora
 Requires(post): /usr/bin/glib-compile-schemas
 Requires(postun): /usr/bin/glib-compile-schemas
-# Replace fedora's packages
-Provides:       fedora-release-workstation
-Obsoletes:      fedora-release-workstation
-
 
 %description workstation
-Provides a base package for Korora Workstation-specific configuration files to
+Provides a base package for Fedora Workstation-specific configuration files to
 depend on.
 
 %prep
@@ -112,8 +97,8 @@ sed -i 's|@@VERSION@@|%{dist_version}|g' Fedora-Legal-README.txt
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT/etc
-echo "Korora release %{version} (%{release_name})" > $RPM_BUILD_ROOT/etc/fedora-release
-echo "cpe:/o:kororaproject:korora:%{version}" > $RPM_BUILD_ROOT/etc/system-release-cpe
+echo "Fedora release %{version} (%{release_name})" > $RPM_BUILD_ROOT/etc/fedora-release
+echo "cpe:/o:fedoraproject:fedora:%{version}" > $RPM_BUILD_ROOT/etc/system-release-cpe
 cp -p $RPM_BUILD_ROOT/etc/fedora-release $RPM_BUILD_ROOT/etc/issue
 echo "Kernel \r on an \m (\l)" >> $RPM_BUILD_ROOT/etc/issue
 cp -p $RPM_BUILD_ROOT/etc/issue $RPM_BUILD_ROOT/etc/issue.net
@@ -122,14 +107,19 @@ ln -s fedora-release $RPM_BUILD_ROOT/etc/redhat-release
 ln -s fedora-release $RPM_BUILD_ROOT/etc/system-release
 
 cat << EOF >>$RPM_BUILD_ROOT/etc/os-release
-NAME=Korora
+NAME=Fedora
 VERSION="%{dist_version} (%{release_name})"
 ID=fedora
 VERSION_ID=%{dist_version}
-PRETTY_NAME="Korora %{dist_version} (%{release_name})"
+PRETTY_NAME="Fedora %{dist_version} (%{release_name})"
 ANSI_COLOR="0;34"
-CPE_NAME="cpe:/o:kororaproject:korora:%{dist_version}"
-HOME_URL="https://kororaproject.org/"
+CPE_NAME="cpe:/o:fedoraproject:fedora:%{dist_version}"
+HOME_URL="https://fedoraproject.org/"
+BUG_REPORT_URL="https://bugzilla.redhat.com/"
+REDHAT_BUGZILLA_PRODUCT="Fedora"
+REDHAT_BUGZILLA_PRODUCT_VERSION=%{bug_version}
+REDHAT_SUPPORT_PRODUCT="Fedora"
+REDHAT_SUPPORT_PRODUCT_VERSION=%{bug_version}
 EOF
 
 # Set up the dist tag macros

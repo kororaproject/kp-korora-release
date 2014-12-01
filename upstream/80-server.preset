@@ -1,0 +1,10 @@
+#
+# Fedora Server
+#
+
+# The Cockpit web-based system management console
+enable cockpit.socket
+
+# The Fedora Server Role administration API
+enable rolekit.service
+
