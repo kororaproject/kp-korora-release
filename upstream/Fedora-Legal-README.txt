@@ -16,7 +16,7 @@ and shall expire three years following the date of the final
 distribution of this release by Red Hat, Inc.
 
 To obtain such source code, send a check or money order in the amount of
-US $10.00 to: 
+US $5.00 to:
 
 Vice President, Intellectual Property | Red Hat, Inc. | 100 East Davie Street | Raleigh, NC 27601 USA
 Please write "source for Fedora @@VERSION@@" in the memo line of your payment.

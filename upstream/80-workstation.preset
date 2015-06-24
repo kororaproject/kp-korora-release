@@ -1,0 +1,9 @@
+#
+# Fedora Workstation
+#
+
+# disable sshd socket by default on workstation
+disable sshd.socket
+
+# disable sshd service by default on workstation
+disable sshd.service

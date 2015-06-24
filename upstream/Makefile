@@ -12,5 +12,6 @@ create-archive:
 	@git archive --prefix $(GITTAG)/ --format tar $(GITTAG) |bzip2 > $(GITTAG).tar.bz2
 	@echo ""
 	@echo "The final archive is in $(GITTAG).tar.bz2"
+	@chmod 644 $(GITTAG).tar.bz2
 
 archive: tag-archive create-archive

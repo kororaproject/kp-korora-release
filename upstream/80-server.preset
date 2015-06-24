@@ -7,4 +7,3 @@ enable cockpit.socket
 
 # The Fedora Server Role administration API
 enable rolekit.service
-
