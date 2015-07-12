@@ -1,4 +1,4 @@
-%define release_name Sheldon
+%define release_name Selina
 %define dist_version 22
 %define bug_version 22
 
