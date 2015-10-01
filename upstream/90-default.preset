@@ -52,10 +52,6 @@ enable qemu-guest-agent.service
 # https://bugzilla.redhat.com/show_bug.cgi?id=928726
 enable dnf-makecache.timer
 
-# https://bugzilla.redhat.com/show_bug.cgi?id=929403
-enable initial-setup-graphical.service
-enable initial-setup-text.service
-
 # https://bugzilla.redhat.com/show_bug.cgi?id=957135
 enable vmtoolsd.service
 
@@ -132,3 +128,6 @@ enable timedatex.service
 
 # https://bugzilla.redhat.com/show_bug.cgi?id=1231745
 enable mlocate-updatedb.timer
+
+# https://bugzilla.redhat.com/show_bug.cgi?id=1218999
+enable sa-update.timer
