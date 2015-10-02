@@ -5,7 +5,7 @@
 Summary:        Korora release files
 Name:           korora-release
 Version:        23
-Release:        0.17
+Release:        0.17.4
 License:        MIT
 Group:          System Environment/Base
 URL:            http://kororaproject.org
@@ -23,7 +23,7 @@ Obsoletes:      fedora-release-standard < 22-0.8
 
 Requires:       korora-repos(%{version})
 Obsoletes:      fedora-release
-Provides:       fedora-release
+Provides:       fedora-release = %{version}-%{release}
 BuildArch:      noarch
 
 %description
