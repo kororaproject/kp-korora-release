@@ -1,11 +1,11 @@
-%define release_name Sheldon
+%define release_name Coral
 %define dist_version 23
 %define bug_version 23
 
 Summary:        Korora release files
 Name:           korora-release
 Version:        23
-Release:        0.17.4
+Release:        0.17.5
 License:        MIT
 Group:          System Environment/Base
 URL:            http://kororaproject.org
