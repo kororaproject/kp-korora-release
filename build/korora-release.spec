@@ -5,7 +5,7 @@
 Summary:        Korora release files
 Name:           korora-release
 Version:        23
-Release:        0.17.5
+Release:        1
 License:        MIT
 Group:          System Environment/Base
 URL:            http://kororaproject.org
@@ -136,7 +136,7 @@ sed -i -e "s|(%{release_name})|(Server Edition)|g" $RPM_BUILD_ROOT/usr/lib/os.re
 
 cp -p $RPM_BUILD_ROOT/usr/lib/os.release.d/issue-fedora \
       $RPM_BUILD_ROOT/usr/lib/os.release.d/issue-server
-echo "Admin Console: https://\4:9090/ or https://\6:9090/" >> $RPM_BUILD_ROOT/usr/lib/os.release.d/issue-server
+echo "Admin Console: https://\4:9090/ or https://[\6]:9090/" >> $RPM_BUILD_ROOT/usr/lib/os.release.d/issue-server
 echo >> $RPM_BUILD_ROOT/usr/lib/os.release.d/issue-server
 
 # Workstation
@@ -310,9 +310,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 %config %attr(0644,root,root) /etc/system-release-cpe
 %config %attr(0644,root,root) /usr/lib/os.release.d/issue-fedora
 /usr/lib/issue
-/etc/issue
+%config(noreplace) /etc/issue
 %config %attr(0644,root,root) /usr/lib/issue.net
-/etc/issue.net
+%config(noreplace) /etc/issue.net
 %attr(0644,root,root) %{_rpmconfigdir}/macros.d/macros.dist
 %dir /usr/lib/systemd/user-preset/
 %dir %{_prefix}/lib/systemd/system-preset/
@@ -341,7 +341,18 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 %{_prefix}/lib/systemd/system-preset/80-workstation.preset
 
 %changelog
+* Mon Nov 2 2015 Chris Smart <csmart@kororaproject.org> - 23-1
+- setup for Korora 23 GA
+
+* Tue Sep 15 2015 Stephen Gallagher <sgallagh@redhat.com> 23-0.19
+- Do not clobber /etc/issue[.net] customizations
+
+* Wed Sep 09 2015 Stephen Gallagher <sgallagh@redhat.com> 23-0.18
+- Update preset file with FESCo decisions
+- https://fedorahosted.org/fesco/ticket/1472
+
 * Tue Sep 08 2015 Dennis Gilmore <dennis@ausil.us> - 23-0.17
+- Enclose IPv6 addresses in square brackets in /etc/issue
 - rebuild to drop timesysncd enabled from server
 
 * Mon Aug 24 2015 Stephen Gallagher <sgallagh@redhat.com> 23-0.16
