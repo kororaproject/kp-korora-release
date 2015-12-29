@@ -5,7 +5,7 @@
 Summary:        Korora release files
 Name:           korora-release
 Version:        23
-Release:        1
+Release:        2
 License:        MIT
 Group:          System Environment/Base
 URL:            http://kororaproject.org
@@ -298,7 +298,7 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 
 %files
 %defattr(-,root,root,-)
-%{!?_licensedir:%global license %%doc}
+%{!?_licensedir:%global license %doc}
 %license LICENSE Fedora-Legal-README.txt
 %dir /usr/lib/os.release.d
 %config %attr(0644,root,root) /usr/lib/os.release.d/os-release-fedora
@@ -321,20 +321,20 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 %{_prefix}/lib/systemd/system-preset/99-default-disable.preset
 
 %files cloud
-%{!?_licensedir:%global license %%doc}
+%{!?_licensedir:%global license %doc}
 %license LICENSE
 %config %attr(0644,root,root) /usr/lib/os.release.d/os-release-cloud
 
 
 %files server
-%{!?_licensedir:%global license %%doc}
+%{!?_licensedir:%global license %doc}
 %license LICENSE
 %config %attr(0644,root,root) /usr/lib/os.release.d/os-release-server
 %config %attr(0644,root,root) /usr/lib/os.release.d/issue-server
 %{_prefix}/lib/systemd/system-preset/80-server.preset
 
 %files workstation
-%{!?_licensedir:%global license %%doc}
+%{!?_licensedir:%global license %doc}
 %license LICENSE
 %config %attr(0644,root,root) /usr/lib/os.release.d/os-release-workstation
 %{_datadir}/glib-2.0/schemas/org.gnome.shell.gschema.override
