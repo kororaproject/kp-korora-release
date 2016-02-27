@@ -5,7 +5,7 @@
 Summary:        Korora release files
 Name:           korora-release
 Version:        23
-Release:        2
+Release:        3
 License:        MIT
 Group:          System Environment/Base
 URL:            http://kororaproject.org
@@ -142,9 +142,9 @@ echo >> $RPM_BUILD_ROOT/usr/lib/os.release.d/issue-server
 # Workstation
 cp -p $RPM_BUILD_ROOT/usr/lib/os.release.d/os-release-fedora \
       $RPM_BUILD_ROOT/usr/lib/os.release.d/os-release-workstation
-echo "VARIANT=\"Workstation Edition\"" >> $RPM_BUILD_ROOT/usr/lib/os.release.d/os-release-workstation
-echo "VARIANT_ID=workstation" >> $RPM_BUILD_ROOT/usr/lib/os.release.d/os-release-workstation
-sed -i -e "s|(%{release_name})|(Workstation Edition)|g" $RPM_BUILD_ROOT/usr/lib/os.release.d/os-release-workstation
+#echo "VARIANT=\"\"" >> $RPM_BUILD_ROOT/usr/lib/os.release.d/os-release-workstation
+#echo "VARIANT_ID=\"\"" >> $RPM_BUILD_ROOT/usr/lib/os.release.d/os-release-workstation
+#sed -i -e "s|(%{release_name})|(Workstation Edition)|g" $RPM_BUILD_ROOT/usr/lib/os.release.d/os-release-workstation
 
 # Create the symlink for /etc/os-release
 # This will be standard until %post when the
@@ -341,6 +341,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 %{_prefix}/lib/systemd/system-preset/80-workstation.preset
 
 %changelog
+* Sat Feb 27 2016 Chris Smart <csmart@kororaproject.org> - 23-3
+- Don't use workstation branding
+
 * Mon Nov 2 2015 Chris Smart <csmart@kororaproject.org> - 23-1
 - setup for Korora 23 GA
 
