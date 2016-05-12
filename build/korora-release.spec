@@ -10,6 +10,7 @@ License:        MIT
 Group:          System Environment/Base
 URL:            http://kororaproject.org
 Source:         %{name}-%{version}.tar.gz
+Source1:        convert-to-edition.lua
 Obsoletes:      redhat-release
 Provides:       redhat-release
 Provides:       system-release
