@@ -1,4 +1,4 @@
-%define release_name Coral
+%define release_name Sheldon
 %define dist_version 24
 %define bug_version 24
 
