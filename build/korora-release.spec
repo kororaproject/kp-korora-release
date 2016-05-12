@@ -1,11 +1,11 @@
 %define release_name Coral
-%define dist_version 23
-%define bug_version 23
+%define dist_version 24
+%define bug_version 24
 
 Summary:        Korora release files
 Name:           korora-release
-Version:        23
-Release:        3
+Version:        24
+Release:        0.1
 License:        MIT
 Group:          System Environment/Base
 URL:            http://kororaproject.org
@@ -29,6 +29,21 @@ BuildArch:      noarch
 %description
 Korora release files such as various /etc/ files that define the release.
 
+
+%package atomichost
+Summary:        Base package for Fedora Atomic-specific default configurations
+Provides:       system-release-atomichost
+Provides:       system-release-atomichost(%{version})
+Provides:       system-release-product
+Requires:       fedora-release = %{version}-%{release}
+# Replace fedora's packages
+Provides:       fedora-release-atomichost
+Obsoletes:      fedora-release-atomichost
+
+%description atomichost
+Provides a base package for Korora Atomic Host-specific configuration files to
+depend on.
+
 %package cloud
 Summary:        Base package for Korora Cloud-specific default configurations
 Provides:       system-release-cloud
@@ -48,12 +63,17 @@ Summary:        Base package for Korora Server-specific default configurations
 Provides:       system-release-server
 Provides:       system-release-server(%{version})
 Provides:       system-release-product
-Requires:       korora-release = %{version}-%{release}
+Requires:       fedora-release = %{version}-%{release}
 Requires:       systemd
-Requires:       cockpit
+Requires:       cockpit-bridge
+Requires:       cockpit-networkmanager
+Requires:       cockpit-shell
+Requires:       cockpit-storaged
+Requires:       cockpit-ws
+Requires:       openssh-server
 Requires:       rolekit
-Requires(post):	sed
-Requires(post):	systemd
+Requires(post): sed
+Requires(post): systemd
 # Replace fedora's packages
 Provides:       fedora-release-server
 Obsoletes:      fedora-release-server
@@ -120,6 +140,14 @@ echo "Kernel \r on an \m (\l)" >> $RPM_BUILD_ROOT/usr/lib/issue.net
 ln -s ../usr/lib/issue.net $RPM_BUILD_ROOT/etc/issue.net
 
 # Create os-release and issue files for the different editions
+
+# Atomic Host - https://bugzilla.redhat.com/show_bug.cgi?id=1200122
+cp -p $RPM_BUILD_ROOT/usr/lib/os.release.d/os-release-fedora \
+      $RPM_BUILD_ROOT/usr/lib/os.release.d/os-release-atomichost
+echo "VARIANT=\"Atomic Host\"" >> $RPM_BUILD_ROOT/usr/lib/os.release.d/os-release-atomichost
+echo "VARIANT_ID=atomic.host" >> $RPM_BUILD_ROOT/usr/lib/os.release.d/os-release-atomichost
+sed -i -e "s|(%{release_name})|(Atomic Host)|g" $RPM_BUILD_ROOT/usr/lib/os.release.d/os-release-atomichost
+
 # Cloud
 cp -p $RPM_BUILD_ROOT/usr/lib/os.release.d/os-release-fedora \
       $RPM_BUILD_ROOT/usr/lib/os.release.d/os-release-cloud
@@ -147,18 +175,14 @@ cp -p $RPM_BUILD_ROOT/usr/lib/os.release.d/os-release-fedora \
 #sed -i -e "s|(%{release_name})|(Workstation Edition)|g" $RPM_BUILD_ROOT/usr/lib/os.release.d/os-release-workstation
 
 # Create the symlink for /etc/os-release
-# This will be standard until %post when the
-# release packages will link the appropriate one into
-# /usr/lib/os-release
+# We don't create the /usr/lib/os-release symlink until %%post
+# so that we can ensure that the right one is referenced.
 ln -s ../usr/lib/os-release $RPM_BUILD_ROOT/etc/os-release
-ln -s os.release.d/os-release-fedora $RPM_BUILD_ROOT/usr/lib/os-release
 
 # Create the symlink for /etc/issue
-# This will be standard until %post when the
-# release packages will link the appropriate one into
-# /usr/lib/os-release
+# We don't create the /usr/lib/os-release symlink until %%post
+# so that we can ensure that the right one is referenced.
 ln -s ../usr/lib/issue $RPM_BUILD_ROOT/etc/issue
-ln -s os.release.d/issue-fedora $RPM_BUILD_ROOT/usr/lib/issue
 
 # Set up the dist tag macros
 install -d -m 755 $RPM_BUILD_ROOT%{_rpmconfigdir}/macros.d
@@ -173,123 +197,88 @@ EOF
 # Add presets
 mkdir -p $RPM_BUILD_ROOT/usr/lib/systemd/user-preset/
 mkdir -p $RPM_BUILD_ROOT%{_prefix}/lib/systemd/system-preset/
+mkdir -p $RPM_BUILD_ROOT/usr/lib/os.release.d/presets
+
 # Default system wide
 install -m 0644 85-display-manager.preset $RPM_BUILD_ROOT%{_prefix}/lib/systemd/system-preset/
 install -m 0644 90-default.preset $RPM_BUILD_ROOT%{_prefix}/lib/systemd/system-preset/
 install -m 0644 99-default-disable.preset $RPM_BUILD_ROOT%{_prefix}/lib/systemd/system-preset/
 # Fedora Server
-install -m 0644 80-server.preset $RPM_BUILD_ROOT%{_prefix}/lib/systemd/system-preset/
+install -m 0644 80-server.preset $RPM_BUILD_ROOT%{_prefix}/lib/os.release.d/presets/
 # Fedora Workstation
-install -m 0644 80-workstation.preset $RPM_BUILD_ROOT%{_prefix}/lib/systemd/system-preset/
+install -m 0644 80-workstation.preset $RPM_BUILD_ROOT%{_prefix}/lib/os.release.d/presets/
 
 # Override the list of enabled gnome-shell extensions for Workstation
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/glib-2.0/schemas/
 install -m 0644 org.gnome.shell.gschema.override $RPM_BUILD_ROOT%{_datadir}/glib-2.0/schemas/
 
-%posttrans
-# Only on installation
-if [ $1 = 0 ]; then
-    # If no fedora-release-$edition subpackage was installed,
-    # make sure to link /etc/os-release to the standard version
-    test -e /usr/lib/os-release || \
-        ln -sf ./os-release.d/os-release-fedora /usr/lib/os-release
-fi
+# Copy the make_edition script to /usr/sbin
+mkdir -p $RPM_BUILD_ROOT/%{_prefix}/sbin/
+install -m 0744 convert-to-edition $RPM_BUILD_ROOT/%{_prefix}/sbin/
 
-%post cloud
-# Run every time
-    # If there is no link to os-release yet from some other
-    # release package, create it
-    test -e /usr/lib/os-release || \
-        ln -sf ./os.release.d/os-release-cloud /usr/lib/os-release
+%post -p <lua>
+%include %{_sourcedir}/convert-to-edition.lua
+-- On initial installation, we'll at least temporarily put the non-product
+-- symlinks in place. It will be overridden by fedora-release-$EDITION
+-- %%post sections because we don't write the /usr/lib/variant file until
+-- %%posttrans to avoid trumping the fedora-release-$EDITION packages.
+-- This is necessary to avoid breaking systemctl scripts since they rely on
+-- /usr/lib/os-release being valid. We can't wait until %%posttrans to default
+-- to os-release-fedora.
+if arg[2] == "0" then
+    set_release(fedora)
+    set_issue(fedora)
+end
 
-    # If os-release isn't a link or it exists but it points to a
-    # non-productized version, replace it with this one
-    if [ \! -h /usr/lib/os-release -o "x$(readlink /usr/lib/os-release)" = "xos.release.d/os-release-fedora" ]; then
-        ln -sf ./os.release.d/os-release-cloud /usr/lib/os-release || :
-    fi
+-- We also want to forcibly set these paths on upgrade if we are explicitly
+-- set to "nonproduct"
+if read_variant() == "nonproduct" then
+    convert_to_edition("nonproduct", false)
+end
 
-%postun cloud
-# Uninstall
-if [ $1 = 0 ]; then
-    # If os-release is now a broken symlink or missing replace it
-    # with a symlink to basic version
-    test -e /usr/lib/os-release || \
-        ln -sf ./os.release.d/os-release-fedora /usr/lib/os-release || :
-fi
+%posttrans -p <lua>
+%include %{_sourcedir}/convert-to-edition.lua
+-- If we get to %%posttrans and nothing created /usr/lib/variant, set it to
+-- nonproduct.
+if posix.stat(VARIANT_FILE) == nil then
+    convert_to_edition("nonproduct", true)
+end
 
+%post atomichost -p <lua>
+%include %{_sourcedir}/convert-to-edition.lua
+install_edition("atomichost")
 
-%post server
-# Run every time
-    # If there is no link to os-release yet from some other
-    # release package, create it
-    test -e /usr/lib/os-release || \
-        ln -sf ./os.release.d/os-release-server /usr/lib/os-release
+%preun atomichost -p <lua>
+%include %{_sourcedir}/convert-to-edition.lua
+uninstall_edition("atomichost")
 
-    # If os-release isn't a link or it exists but it points to a
-    # non-productized version, replace it with this one
-    if [ \! -h /usr/lib/os-release -o "x$(readlink /usr/lib/os-release)" = "xos.release.d/os-release-fedora" ]; then
-        ln -sf ./os.release.d/os-release-server /usr/lib/os-release || :
-    fi
+%post cloud -p <lua>
+%include %{_sourcedir}/convert-to-edition.lua
+install_edition("cloud")
 
-    # If issue isn't a link or it exists but it points to a
-    # non-productized version, replace it with this one
-    if [ \! -h /usr/lib/issue -o "x$(readlink /usr/lib/issue)" = "xos.release.d/issue-fedora" ]; then
-        ln -sf ./os.release.d/issue-server /usr/lib/issue || :
-    fi
+%preun cloud -p <lua>
+%include %{_sourcedir}/convert-to-edition.lua
+uninstall_edition("cloud")
 
-if [ $1 -eq 1 ] ; then
-    # Initial installation
+%post server -p <lua>
+%include %{_sourcedir}/convert-to-edition.lua
+install_edition("server")
 
-    # fix up after %%systemd_post in packages
-    # possibly installed before our preset file was added
-    units=$(sed -n 's/^enable//p' \
-        < %{_prefix}/lib/systemd/system-preset/80-server.preset)
-        /usr/bin/systemctl preset $units >/dev/null 2>&1 || :
-fi
+%preun server -p <lua>
+%include %{_sourcedir}/convert-to-edition.lua
+uninstall_edition("server")
 
-%postun server
-# Uninstall
-if [ $1 = 0 ]; then
-    # If os-release is now a broken symlink or missing replace it
-    # with a symlink to basic version
-    test -e /usr/lib/os-release || \
-        ln -sf ./os.release.d/os-release-fedora /usr/lib/os-release || :
+%post workstation -p <lua>
+%include %{_sourcedir}/convert-to-edition.lua
+install_edition("workstation")
 
-    test -e /usr/lib/issue || \
-        ln -sf ./os.release.d/issue-fedora /usr/lib/issue || :
-fi
-
-%post workstation
-# Run every time
-    # If there is no link to os-release yet from some other
-    # release package, create it
-    test -e /usr/lib/os-release || \
-        ln -sf ./os.release.d/os-release-workstation /usr/lib/os-release
-
-    # If os-release isn't a link or it exists but it points to a
-    # non-productized version, replace it with this one
-    if [ \! -h /usr/lib/os-release -o "x$(readlink /usr/lib/os-release)" = "xos.release.d/os-release-fedora" ]; then
-        ln -sf ./os.release.d/os-release-workstation /usr/lib/os-release || :
-    fi
-
-if [ $1 -eq 1 ] ; then
-    # Initial installation
-
-    # fix up after %%systemd_post in packages
-    # possibly installed before our preset file was added
-    units=$(sed -n 's/^disable//p' \
-        < %{_prefix}/lib/systemd/system-preset/80-workstation.preset)
-    /usr/bin/systemctl preset $units >/dev/null 2>&1 || :
-fi
+%preun workstation -p <lua>
+%include %{_sourcedir}/convert-to-edition.lua
+uninstall_edition("workstation")
 
 %postun workstation
 if [ $1 -eq 0 ] ; then
     glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
-
-    # If os-release is now a broken symlink or missing replace it
-    # with a symlink to basic version
-    test -e /usr/lib/os-release || \
-        ln -sf ./os.release.d/os-release-fedora /usr/lib/os-release || :
 fi
 
 %posttrans workstation
@@ -298,18 +287,20 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 
 %files
 %defattr(-,root,root,-)
-%{!?_licensedir:%global license %doc}
+%{!?_licensedir:%global license %%doc}
 %license LICENSE Fedora-Legal-README.txt
+%ghost /usr/lib/variant
 %dir /usr/lib/os.release.d
+%dir /usr/lib/os.release.d/presets
 %config %attr(0644,root,root) /usr/lib/os.release.d/os-release-fedora
-/usr/lib/os-release
+%ghost /usr/lib/os-release
 /etc/os-release
 %config %attr(0644,root,root) /etc/fedora-release
 /etc/redhat-release
 /etc/system-release
 %config %attr(0644,root,root) /etc/system-release-cpe
 %config %attr(0644,root,root) /usr/lib/os.release.d/issue-fedora
-/usr/lib/issue
+%ghost /usr/lib/issue
 %config(noreplace) /etc/issue
 %config %attr(0644,root,root) /usr/lib/issue.net
 %config(noreplace) /etc/issue.net
@@ -319,28 +310,41 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 %{_prefix}/lib/systemd/system-preset/85-display-manager.preset
 %{_prefix}/lib/systemd/system-preset/90-default.preset
 %{_prefix}/lib/systemd/system-preset/99-default-disable.preset
+/usr/sbin/convert-to-edition
+
+%files atomichost
+%{!?_licensedir:%global license %%doc}
+%license LICENSE
+%config %attr(0644,root,root) /usr/lib/os.release.d/os-release-atomichost
+
 
 %files cloud
-%{!?_licensedir:%global license %doc}
+%{!?_licensedir:%global license %%doc}
 %license LICENSE
 %config %attr(0644,root,root) /usr/lib/os.release.d/os-release-cloud
 
 
 %files server
-%{!?_licensedir:%global license %doc}
+%{!?_licensedir:%global license %%doc}
 %license LICENSE
 %config %attr(0644,root,root) /usr/lib/os.release.d/os-release-server
 %config %attr(0644,root,root) /usr/lib/os.release.d/issue-server
-%{_prefix}/lib/systemd/system-preset/80-server.preset
+%ghost %{_prefix}/lib/systemd/system-preset/80-server.preset
+%config %attr(0644,root,root) /usr/lib/os.release.d/presets/80-server.preset
 
 %files workstation
-%{!?_licensedir:%global license %doc}
+%{!?_licensedir:%global license %%doc}
 %license LICENSE
 %config %attr(0644,root,root) /usr/lib/os.release.d/os-release-workstation
 %{_datadir}/glib-2.0/schemas/org.gnome.shell.gschema.override
-%{_prefix}/lib/systemd/system-preset/80-workstation.preset
+%ghost %{_prefix}/lib/systemd/system-preset/80-workstation.preset
+%config %attr(0644,root,root) /usr/lib/os.release.d/presets/80-workstation.preset
+
 
 %changelog
+* Thu May 12 2016 Chris Smart <csmart@kororaproject.org> - 24-1
+- Korora 24
+
 * Sat Feb 27 2016 Chris Smart <csmart@kororaproject.org> - 23-3
 - Don't use workstation branding
 
