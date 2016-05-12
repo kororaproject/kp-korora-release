@@ -6,18 +6,38 @@ disable systemd-timesyncd.service
 disable systemd-networkd.service
 disable systemd-resolved.service
 
+# These presets were last validated en-masse on 2015-09-09
+# https://fedorahosted.org/fesco/ticket/1472
+
 # System stuff
+# https://fedoraproject.org/w/index.php?title=Starting_services_by_default&oldid=377748
 enable sshd.service
+
+# Locally-running services
 enable atd.*
 enable crond.*
+
+# Approved by FESCo - https://fedorahosted.org/fesco/ticket/636
 enable chronyd.service
+
+# https://fedoraproject.org/w/index.php?title=Starting_services_by_default&oldid=377748
 enable NetworkManager.service
 enable NetworkManager-dispatcher.service
 enable ModemManager.service
+
+# Approved by FESCo - https://fedorahosted.org/fesco/ticket/1311
 enable auditd.service
+
+# Locally-running service
 enable restorecond.service
+
+# Approved by FESCo - https://fedorahosted.org/fesco/ticket/1166
 enable bluetooth.*
+
+# https://fedoraproject.org/w/index.php?title=Starting_services_by_default&oldid=377748
 enable avahi-daemon.*
+
+# Default configuration is locally-running only
 enable cups.*
 
 # The various syslog implementations
@@ -26,14 +46,23 @@ enable syslog-ng.*
 enable sysklogd.*
 
 # Network facing
+# https://fedoraproject.org/w/index.php?title=Starting_services_by_default&oldid=377748
 enable firewalld.service
+
+# Approved by FESCo - https://fedorahosted.org/fesco/ticket/544
 enable libvirtd.service
+
+# https://fedoraproject.org/w/index.php?title=Starting_services_by_default&oldid=377748
 enable xinetd.service
-enable ladvd.service
 
 # Storage
+# Approved by FESCo - https://fedorahosted.org/fesco/ticket/391
 enable multipathd.service
+
+# Approved by FESCo - https://fedorahosted.org/fesco/ticket/876
 enable libstoragemgmt.service
+
+# Locally-running services
 enable lvm2-monitor.*
 enable lvm2-lvmetad.*
 enable dm-event.*
@@ -72,6 +101,7 @@ enable dnssec-triggerd.service
 enable uuidd.socket
 
 # Hardware
+# Locally-running service
 enable gpm.*
 
 # https://bugzilla.redhat.com/show_bug.cgi?id=1066421
@@ -89,21 +119,23 @@ enable lvm2-lvmpolld.*
 # https://fedoraproject.org/wiki/Changes/UEFISecureBootBlacklistUpdates
 enable dbxtool.service
 
+# Locally-running services
 enable irqbalance.service
 enable lm_sensors.service
 enable mcelog.*
-enable acpid.*
 enable smartd.service
 enable pcscd.socket
 enable rngd.service
 
 # Other stuff
+# Approved by FESCo - https://fedorahosted.org/fesco/ticket/937
 enable abrtd.service
 enable abrt-ccpp.service
 enable abrt-oops.service
 enable abrt-xorg.service
 enable abrt-vmcore.service
-enable lttng-sessiond.service
+
+# Locally-running services
 enable ksm.service
 enable ksmtuned.service
 enable rootfs-resize.service
@@ -116,12 +148,12 @@ enable xenstored.service
 enable xenconsoled.service
 
 # Desktop stuff
+# Locally-running services
 enable accounts-daemon.service
 enable rtkit-daemon.service
 enable upower.service
 enable udisks2.service
 enable polkit.service
-enable packagekit-offline-update.service
 
 # https://bugzilla.redhat.com/show_bug.cgi?id=1187072
 enable timedatex.service
@@ -131,3 +163,15 @@ enable mlocate-updatedb.timer
 
 # https://bugzilla.redhat.com/show_bug.cgi?id=1218999
 enable sa-update.timer
+
+# Hyper-V guest support daemons
+# https://bugzilla.redhat.com/show_bug.cgi?id=1279322
+enable vmtoolsd.service
+enable hypervvssd.service
+enable hypervfcopyd.service
+enable hypervkvpd.service
+
+# mcelog is a utility that collects and decodes Machine Check Exception data
+# on x86-32 and x86-64 systems.
+# https://bugzilla.redhat.com/show_bug.cgi?id=1302179
+enable mcelog.service

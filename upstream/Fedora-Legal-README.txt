@@ -9,20 +9,22 @@ https://fedoraproject.org/wiki/Licensing:Main?rd=Licensing.
 
 = Source Availability =
 
-A complete machine-readable copy of the source code corresponding to
-portions of the accompanying Fedora @@VERSION@@ release is available upon
-request. This offer is valid to anyone in receipt of this information
-and shall expire three years following the date of the final
-distribution of this release by Red Hat, Inc.
+The accompanying Fedora @@VERSION@@ release includes copyrighted
+software that is licensed under the GNU General Public License and
+other licenses. You may obtain the complete machine-readable source
+code corresponding to portions of this release by sending a check or
+money order in the amount of US $5.00 to:
 
-To obtain such source code, send a check or money order in the amount of
-US $5.00 to:
+VP, Legal - Products & Technologies | Red Hat, Inc. | 100 East Davie Street | Raleigh, NC 27601 USA
 
-Vice President, Intellectual Property | Red Hat, Inc. | 100 East Davie Street | Raleigh, NC 27601 USA
 Please write "source for Fedora @@VERSION@@" in the memo line of your payment.
 
 You may also access a copy of this source code at:
 http://dl.fedoraproject.org/pub/fedora/linux/releases/@@VERSION@@/Everything/source/
+
+This offer is valid to anyone in receipt of this information and shall
+expire three years following the date of the final distribution of
+this release by Red Hat, Inc.
 
 = Export Regulations =
 
