@@ -5,7 +5,7 @@
 Summary:        Korora release files
 Name:           korora-release
 Version:        24
-Release:        0.1
+Release:        2
 License:        MIT
 Group:          System Environment/Base
 URL:            http://kororaproject.org
@@ -241,9 +241,7 @@ end
 %include %{_sourcedir}/convert-to-edition.lua
 -- If we get to %%posttrans and nothing created /usr/lib/variant, set it to
 -- nonproduct.
-if posix.stat(VARIANT_FILE) == nil then
-    convert_to_edition("nonproduct", true)
-end
+install_edition("nonproduct")
 
 %post atomichost -p <lua>
 %include %{_sourcedir}/convert-to-edition.lua
