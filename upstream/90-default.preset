@@ -167,11 +167,27 @@ enable sa-update.timer
 # Hyper-V guest support daemons
 # https://bugzilla.redhat.com/show_bug.cgi?id=1279322
 enable vmtoolsd.service
-enable hypervvssd.service
-enable hypervfcopyd.service
-enable hypervkvpd.service
 
 # mcelog is a utility that collects and decodes Machine Check Exception data
 # on x86-32 and x86-64 systems.
 # https://bugzilla.redhat.com/show_bug.cgi?id=1302179
 enable mcelog.service
+
+# OPAL-prd is a utility specific to ppc64le systems
+# It is the "OPAL Processor Recovery Diagnostics Daemon"
+# https://bugzilla.redhat.com/show_bug.cgi?id=1312018
+enable opal-prd.service
+
+# virtlog.service is sometimes used by VMs started by libvirt.service
+# Enable virtlog.socket to have it socket activated
+# https://bugzilla.redhat.com/show_bug.cgi?id=1290357
+enable virtlogd.socket
+
+# lircd is the Linux Infrared Control daemon
+# Starting with version 0.9.4, it requires no manual configuration
+# https://bugzilla.redhat.com/show_bug.cgi?id=1340061
+enable lircd.socket
+
+# IPSec management
+# https://bugzilla.redhat.com/show_bug.cgi?id=1276285
+enable pluto.socket

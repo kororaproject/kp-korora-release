@@ -1,11 +1,11 @@
-%define release_name Sheldon
-%define dist_version 24
-%define bug_version 24
+%define release_name Gurgle
+%define dist_version 25
+%define bug_version 25
 
 Summary:        Korora release files
 Name:           korora-release
-Version:        24
-Release:        2
+Version:        25
+Release:        0.1
 License:        MIT
 Group:          System Environment/Base
 URL:            http://kororaproject.org
@@ -122,12 +122,14 @@ install -d $RPM_BUILD_ROOT/usr/lib/os.release.d/
 cat << EOF >>$RPM_BUILD_ROOT/usr/lib/os.release.d/os-release-fedora
 NAME=Korora
 VERSION="%{dist_version} (%{release_name})"
-ID=fedora
+ID=korora
+ID_LIKE=fedora
 VERSION_ID=%{dist_version}
 PRETTY_NAME="Korora %{dist_version} (%{release_name})"
 ANSI_COLOR="0;34"
 CPE_NAME="cpe:/o:kororaproject:korora:%{dist_version}"
 HOME_URL="https://kororaproject.org/"
+PRIVACY_POLICY_URL=https://fedoraproject.org/wiki/Legal:PrivacyPolicy
 EOF
 
 # Create the common /etc/issue
@@ -341,6 +343,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 
 
 %changelog
+* Thu Sep 01 2016 Chris Smart <csmart@kororaproject.org> - 25-1
+- Korora 25
+
 * Thu May 12 2016 Chris Smart <csmart@kororaproject.org> - 24-1
 - Korora 24
 

@@ -64,7 +64,7 @@ end
 local function clear_presets()
   local path = "/usr/lib/systemd/system-preset"
   for file in posix.files(path) do
-    if file:match("^80-.*%.preset$") then
+    if file:match("^80%-.*%.preset$") then
       os.remove(path .. "/" .. file)
     end
   end
