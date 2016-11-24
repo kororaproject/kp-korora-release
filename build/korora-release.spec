@@ -5,7 +5,7 @@
 Summary:        Korora release files
 Name:           korora-release
 Version:        25
-Release:        0.1
+Release:        2
 License:        MIT
 Group:          System Environment/Base
 URL:            http://kororaproject.org
@@ -343,6 +343,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 
 
 %changelog
+* Thu Nov 24 2016 Chris Smart <csmart@kororaproject.org> - 25-2
+- Korora 25 release
+
 * Thu Sep 01 2016 Chris Smart <csmart@kororaproject.org> - 25-1
 - Korora 25
 
