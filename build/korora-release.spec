@@ -1,11 +1,11 @@
-%define release_name Gurgle
-%define dist_version 25
-%define bug_version 25
+%define release_name Bloat
+%define dist_version 26
+%define bug_version 26
 
 Summary:        Korora release files
 Name:           korora-release
-Version:        25
-Release:        2
+Version:        26
+Release:        0.1
 License:        MIT
 Group:          System Environment/Base
 URL:            http://kororaproject.org
@@ -343,6 +343,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 
 
 %changelog
+* Sun May  1 2017 Ian Firns <firnsy@kororaproject.org> - 26-1
+- Korora 26
+
 * Thu Nov 24 2016 Chris Smart <csmart@kororaproject.org> - 25-2
 - Korora 25 release
 

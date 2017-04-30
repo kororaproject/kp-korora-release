@@ -1,14 +1,18 @@
-%define release_name Twenty Five
-%define dist_version 25
-%define bug_version 25
+%define release_name Twenty Six
+%define dist_version 26
+%define bug_version 26
+
+# All changes need to be submitted as pull requests in pagure
+# The package can only be built by a very small number of people
+# if you are not sure you can build it do not attempt to
 
 Summary:        Fedora release files
 Name:           fedora-release
-Version:        25
-Release:        0.11
+Version:        26
+Release:        0.6
 License:        MIT
 Group:          System Environment/Base
-URL:            http://fedoraproject.org
+URL:            https://pagure.io/fedora-release
 Source:         %{name}-%{version}.tar.bz2
 Source1:        convert-to-edition.lua
 Obsoletes:      redhat-release
@@ -205,7 +209,7 @@ install -m 0644 org.gnome.shell.gschema.override $RPM_BUILD_ROOT%{_datadir}/glib
 
 # Copy the make_edition script to /usr/sbin
 mkdir -p $RPM_BUILD_ROOT/%{_prefix}/sbin/
-install -m 0744 convert-to-edition $RPM_BUILD_ROOT/%{_prefix}/sbin/
+install -m 0755 convert-to-edition $RPM_BUILD_ROOT/%{_prefix}/sbin/
 
 %post -p <lua>
 %include %{_sourcedir}/convert-to-edition.lua
