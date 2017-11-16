@@ -1,11 +1,11 @@
-%define release_name Bloat
-%define dist_version 26
-%define bug_version 26
+%define release_name Marlin
+%define dist_version 27
+%define bug_version 27
 
 Summary:        Korora release files
 Name:           korora-release
-Version:        26
-Release:        2
+Version:        27
+Release:        0.2
 License:        MIT
 Group:          System Environment/Base
 URL:            http://kororaproject.org
@@ -343,6 +343,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 
 
 %changelog
+* Wed Oct  9 2017 Ian Firns <firnsy@kororaproject.org> - 27-0.1
+- Korora 27
+
 * Wed Sep 13 2017 Ian Firns <firnsy@kororaproject.org> - 26-2
 - Korora 26 release
 
